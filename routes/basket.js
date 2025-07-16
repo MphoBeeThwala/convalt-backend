@@ -6,7 +6,8 @@ const router = express.Router();
 
 // POST /api/basket/match
 router.post('/match', authMiddleware, async (req, res) => {
-  const { shoppingList, budget, radius = 5, latitude, longitude } = req.body;
+  const { shoppingList, budget, latitude, longitude } = req.body;
+  const radius = req.body.radius || process.env.RETAILER_SEARCH_RADIUS || 5;
   if (!Array.isArray(shoppingList) || !budget || !latitude || !longitude)
     return res.status(400).json({ error: 'Missing required fields.' });
 

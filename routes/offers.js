@@ -15,11 +15,13 @@ router.get('/suggested', authMiddleware, async (req, res) => {
       order: [['date', 'DESC']],
       limit: 10
     });
-    const items = history.map(h => ({
-      product: h.Product ? h.Product.name : undefined,
-      price: h.price,
-      date: h.date
-    }));
+    const items = history
+      .map(h => ({
+        product: h.Product ? h.Product.name : undefined,
+        price: h.price,
+        date: h.date
+      }))
+      .filter(item => item.product !== undefined);
     res.json({ suggested: items });
   } catch (err) {
     res.status(500).json({ error: err.message });
